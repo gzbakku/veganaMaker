@@ -1,0 +1,151 @@
+
+@import './@4withselect.scss';
+@import './@align.scss';
+
+.comp-builder-form-select-option{
+  font-family: $font;
+  background-color: black;
+  color:white;
+}
+
+.comp-builder-form{
+  margin-bottom: 10px;
+  // border: 5px solid purple;
+}
+
+  .comp-builder-form-field{
+    width: 95%;
+    margin: auto;
+    margin-bottom: 10px;
+    overflow: hidden;
+    // border: 5px solid green;
+  }
+
+    .comp-builder-form-field_tag{
+      float: left;
+      vertical-align: top;
+      width: 30%;
+      display: inline-block;
+      padding: 5px;
+      text-align: center;
+      text-transform: capitalize;
+      font-size: 14px;
+      // border: 5px solid pink;
+    }
+
+    .comp-builder-form-field_flush{
+      float: left;
+      vertical-align: top;
+      width: 30%;
+      max-height: 30px;
+      display: inline-block;
+      border-radius: 5px;
+      // border: 5px solid yellow;
+      text-align: center;
+      overflow: hidden;
+      user-select: none;
+    }
+
+      .comp-builder-form-field_flush-yes{
+        vertical-align: top;
+        display: inline-block;
+        background-color: $color-green;
+        width: 50%;
+        height: 100%;
+        color: white;
+        padding-top: 2px;
+        padding-bottom: 2px;
+        cursor: pointer;
+      }
+
+      .comp-builder-form-field_flush-no{
+        vertical-align: top;
+        display: inline-block;
+        background-color: $color-red;
+        width: 50%;
+        height: 100%;
+        color: white;
+        padding-top: 2px;
+        padding-bottom: 2px;
+        cursor: pointer;
+      }
+
+    //switch
+    .comp-builder-form-field_input_switch{
+      width: 70%;
+      display: inline-block;
+      padding: 5px;
+    }
+
+      .comp-builder-form-field_input_switch-box{
+        width: 50px;
+        height: 30px;
+        margin: auto;
+        border: 5px solid $color-blue;
+        border-radius: 20px;
+        background-color: $color-blue;
+      }
+
+        .comp-builder-form-field_input_switch-box_open{
+          text-align: right;
+          background-color: $color-green;
+          border:5px solid $color-green;
+        }
+
+      .comp-builder-form-field_input_switch-ball{
+        border-radius: 100%;
+        display: inline-block;
+        height: 100%;
+        width: 20px;
+        background-color: white;
+        cursor: pointer;
+      }
+
+    //input
+    .comp-builder-form-field_input{
+      width: 60%;
+      height: auto;
+      vertical-align: top;
+      display: inline-block;
+      border: 1px solid $color-grey;
+      border-radius: 5px;
+      overflow: hidden;
+      float: right;
+      margin-right: 10px;
+      // border: 5px solid red;
+    }
+
+      .comp-builder-form-textarea{
+        border: 0px;
+        width: 100%;
+        height: 100%;
+        padding: 5px;
+      }
+
+      .comp-builder-form-field_input-input{
+        border: 0px;
+        padding: 5px;
+      }
+
+      .comp-builder-form-field_input-options_input{
+        display: inline-block;
+        width: 50%;
+        border: 0px;
+        padding: 5px;
+        border-right: 1px solid $color-grey;
+        // border: 5px solid green;
+      }
+
+      .comp-builder-form-field_input-options_select{
+        display: inline-block;
+        width: 50%;
+        border: 0px;
+        // border: 5px solid red;
+      }
+
+      .comp-builder-form-field_input-select{
+        width: 100%;
+        height: 30px;
+        border: 0px;
+        // border: 5px solid purple;
+      }

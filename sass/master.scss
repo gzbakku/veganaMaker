@@ -1,0 +1,57 @@
+
+$color-grey: #b8b8b8;
+$color-green:#57cf6d;
+$color-red:#ff0831;
+$color-blue:#75b8ff;
+
+$font:'Montserrat';
+
+.card {
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+}
+
+* {
+  margin:0px;
+  padding: 0px;
+  box-sizing: border-box;
+  font-family: $font;
+}
+
+.page-main-main{
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  position: relative;
+  // border: 5px solid purple;
+}
+
+.page-main-section{
+  padding: 10px;
+  text-transform: capitalize;
+  border-bottom: 1px solid $color-grey;
+  color:$color-red;
+  margin-bottom: 10px;
+}
+
+.page-main-main-canvas{
+  display: inline-block;
+  vertical-align: top;
+  width: 70%;
+  height: 100%;
+  overflow: auto;
+  // border-right: 1px solid grey;
+  // border:5px solid red;
+}
+
+.page-main-main-builder{
+  display: inline-block;
+  vertical-align: top;
+  width: 30%;
+  height: 100%;
+  overflow: auto;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  // border:5px solid green;
+}
+
+
+@import './vegana_tree.scss';

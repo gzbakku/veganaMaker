@@ -1,0 +1,52 @@
+
+
+.comp-builder-main{
+  padding-top: 20px;
+  padding-bottom: 10vh;
+}
+
+  .comp-builder-main-menu{
+    text-align: right;
+    padding-bottom: 5px;
+  }
+
+    .comp-builder-main-menu-img{
+      height: 40px;
+      width: auto;
+      margin: 10px;
+      border-bottom: 5px solid white;
+      cursor: pointer;
+    }
+
+    .comp-builder-main-menu-img_back{
+      float: left;
+      margin-left: 20px;
+    }
+
+  .comp-builder-main-tabs{
+    border-top: 0.5px solid $color-grey;
+    border-bottom: 0.5px solid $color-grey;
+    display: flex;
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+
+    .comp-builder-main-tabs-button{
+      flex: auto;
+      // border-right: 0.5px solid $color-grey;
+      text-align: center;
+      padding: 5px;
+      font-size: 14px;
+      cursor: pointer;
+      border-bottom: 5px solid white;
+    }
+
+    .comp-builder-main-tabs-button:hover{
+      // background-color:$color-green;
+      // color:white;
+      border-bottom: 5px solid $color-green;
+    }
+
+  .comp-builder-main-tabsRouter{
+
+  }

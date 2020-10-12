@@ -1,0 +1,42 @@
+
+
+.comp-builder-children{
+
+}
+
+  .comp-builder-children-list{
+    width: 95%;
+    border-radius: 5px;
+    border: 1px solid $color-grey;
+    margin: auto;
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+
+    .comp-builder-children-list-item{
+      display: flex;
+      border-bottom: 1px solid $color-grey;
+    }
+
+    .comp-builder-children-list-item:hover{
+      // background-color: $color-grey;
+      // color:white;
+      border-bottom: 5px solid $color-green;
+      cursor: pointer;
+    }
+
+      .comp-builder-children-list-item-val{
+        flex: auto;
+        text-align: center;
+        padding: 5px;
+        text-transform: capitalize;
+      }
+
+        .comp-builder-children-list-item-val-type{
+          color:$color-green;
+          // border-right: 1px solid $color-grey;
+        }
+
+        .comp-builder-children-list-item-val-name{
+          color:$color-red;
+        }

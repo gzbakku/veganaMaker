@@ -1,0 +1,34 @@
+
+
+.comp-form-align-main{
+  margin-bottom: 10px;
+}
+
+  .comp-form-align-main-tag{
+    display: inline-block;
+    width: 40%;
+    vertical-align: top;
+    text-align: center;
+  }
+
+  .comp-form-align-main-inputCont{
+    display: inline-block;
+    width: 50%;
+    vertical-align: top;
+    // float: right;
+    margin-right: 10px;
+    border: 1px solid $color-grey;
+    border-radius: 10px;
+    overflow: hidden;
+  }
+
+    .comp-form-align-main-inputCont-button{
+      display: inline-block;
+      width: 33.33%;
+      vertical-align: top;
+      text-align: center;
+      border-right: 1px solid $color-grey;
+      text-transform: capitalize;
+      color:$color-red;
+      cursor: pointer;
+    }

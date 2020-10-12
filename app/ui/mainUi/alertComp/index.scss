@@ -1,0 +1,49 @@
+
+
+.comp-alert-main{
+  position: fixed;
+  height: 100vh;
+  width: 100vw;
+  top:0px;
+  left:0px;
+}
+
+  .comp-alert-main-background{
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top:0px;
+    left:0px;
+    opacity: 0.3;
+    background-color: $color-grey;
+  }
+
+  .comp-alert-main-card{
+    width: 50%;
+    position: absolute;
+    top:20vh;
+    left:25%;
+    background-color: white;
+    border-radius: 5px;
+  }
+
+    .comp-alert-main-card-message{
+      padding: 10px;
+    }
+
+    .comp-alert-main-card-buttons{
+      text-align: right;
+    }
+
+      .comp-alert-main-card-buttons-button{
+        margin: 10px;
+        background-color: $color-blue;
+        padding: 5px;
+        font-size: 14px;
+        border-radius: 5px;
+        display: inline-block;
+        color: white;
+        min-width: 50px;
+        text-align: center;
+        cursor: pointer;
+      }

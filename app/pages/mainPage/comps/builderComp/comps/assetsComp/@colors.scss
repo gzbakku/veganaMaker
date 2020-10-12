@@ -1,0 +1,119 @@
+
+
+.comp-assets-colors{
+
+}
+
+  .comp-assets-colors-new{
+    // border: 5px solid red;
+    width: 400px;
+    margin: auto;
+  }
+
+    .comp-assets-colors-new-input_name{
+      vertical-align: top;
+      border-radius: 10px;
+      height: 40px;
+      border: 5px solid $color-blue;
+      padding: 5px;
+    }
+
+    .comp-assets-colors-new-inputColorCont{
+      vertical-align: top;
+      display: inline-block;
+      height: 40px;
+      width: 40px;
+      border-radius: 10px;
+      overflow: hidden;
+      margin-left: 10px;
+    }
+
+      .comp-assets-colors-new-input_color{
+        height: 100%;
+        width: 100%;
+        border: 0px;
+        background-color: white;
+      }
+
+    .comp-assets-colors-new-button{
+      background-color: $color-blue;
+      color:white;
+      height: 40px;
+      padding-left: 10px;
+      padding-right: 10px;
+      display: inline-block;
+      border-radius: 10px;
+      padding: 10px;
+      margin-left: 10px;
+      cursor: pointer;
+    }
+
+  .comp-assets-colors-noColorsCont{
+    padding: 10px;
+    padding-top: 30px;
+    font-size: 24px;
+    text-align: center;
+    color:$color-red;
+    text-transform: capitalize;
+  }
+
+  .comp-assets-colors-list{
+    border: 0.5px solid $color-grey;
+    border-radius: 10px;
+    width: 90%;
+    margin: auto;
+    margin-top: 30px;
+    margin-bottom: 10px;
+    overflow: hidden;
+    // border: 5px solid red;
+  }
+
+    .comp-assets-colors-list-item{
+      height: 50px;
+      // overflow: hidden;
+      // border: 5px solid green;
+      overflow: auto;
+      border-bottom: 1px solid $color-grey;
+    }
+
+      .comp-assets-colors-list-item-name{
+        vertical-align: top;
+        width: 30%;
+        display: inline-block;
+        text-align: center;
+        padding-top: 10px;
+        text-transform: capitalize;
+      }
+
+      .comp-assets-colors-list-item-color{
+        vertical-align: top;
+        width: 30%;
+        display: inline-block;
+        text-align: center;
+        padding-top: 10px;
+      }
+
+        .comp-assets-colors-list-item-color-display{
+          height: 30px;
+          width: 30px;
+          border-radius: 10px;
+          display: inline-block;
+        }
+
+      .comp-assets-colors-list-item-delete{
+        vertical-align: top;
+        width: 40%;
+        display: inline-block;
+        text-align: center;
+        padding-top: 10px;
+      }
+
+        .comp-assets-colors-list-item-delete-img{
+          height: 30px;
+          width: auto;
+          cursor: pointer;
+        }
+
+        .comp-assets-colors-list-item-delete-img:hover{
+          transform: rotate(10deg);
+        }

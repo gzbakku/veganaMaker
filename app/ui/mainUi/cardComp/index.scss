@@ -1,0 +1,63 @@
+
+
+.comp-card-main{
+  position: fixed;
+  height: 100vh;
+  width: 100vw;
+  top:0px;
+  left: 0px;
+  // border: 5px solid red;
+}
+
+  .comp-card-background{
+    background-color: $color-grey;
+    opacity: 0.3;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top:0px;
+    left:0px;
+  }
+
+  .comp-card{
+    top:10vh;
+    left:15%;
+    width: 70%;
+    min-height: 100px;
+    // max-height: 80vh;
+    height: 80vh;
+    position: absolute;
+    background-color: white;
+    border-radius: 10px;
+    overflow: hidden;
+    // border: 5px solid green;
+  }
+
+    .comp-card-heading{
+      background-color: $color-blue;
+      color:white;
+      padding: 10px;
+      height: 8vh;
+      overflow: auto;
+      // border: 5px solid purple;
+    }
+
+      .comp-card-heading-title{
+        display: inline-block;
+        text-transform: capitalize;
+      }
+
+      .comp-card-heading-button{
+        display: inline-block;
+        padding: 5px;
+        border-radius: 5px;
+        background-color: darken($color-blue, 10%);
+        float: right;
+        cursor: pointer;
+      }
+
+    .comp-card-body{
+      overflow: auto;
+      max-height: 72vh;
+      // border: 5px solid red;
+    }

@@ -1,0 +1,106 @@
+
+
+.comp-assets-fonts{
+  // border: 5px solid red;
+  overflow: auto;
+}
+
+  .comp-assets-fonts-formCont{
+    vertical-align: top;
+    display: inline-block;
+    width: 30%;
+    // border: 5px solid green;
+  }
+
+    .comp-assets-fonts-formCont-form{
+      margin: auto;
+      width: 80%;
+      max-width: 400px;
+      border-radius: 10px;
+      overflow: hidden;
+      // border: 5px solid yellow;
+      margin-top: 10px;
+      margin-bottom: 10px;
+      border: 5px solid $color-blue;
+      background-color: $color-blue;
+    }
+
+      .comp-assets-fonts-formCont-form-input{
+        width: 100%;
+        height: 30px;
+        border: 0px;
+        border-bottom: 5px solid $color-blue;
+        padding: 10px;
+        border-radius: 5px;
+      }
+
+      .comp-assets-fonts-formCont-form-button{
+        width: 100%;
+        text-align: center;
+        background-color: $color-blue;
+        color:white;
+        padding: 10px;
+        cursor: pointer;
+      }
+
+  .comp-assets-fonts-noFontsCont{
+    vertical-align: top;
+    display: inline-block;
+    width: 65%;
+    margin-left: 10px;
+    text-align: center;
+    color:$color-red;
+    padding-top: 5vh;
+    font-size: 24px;
+  }
+
+  .comp-assets-fonts-listCont{
+    vertical-align: top;
+    display: inline-block;
+    width: 65%;
+    margin-left: 10px;
+    // border: 5px solid purple;
+    margin-top: 10px;
+    border: 1px solid $color-grey;
+    border-radius: 5px;
+    overflow: hidden;
+  }
+
+    .comp-assets-fonts-listCont-item{
+      height: 50px;
+      border-bottom: 1px solid $color-grey;
+    }
+
+      .comp-assets-fonts-listCont-item-name{
+        vertical-align: top;
+        text-align: center;
+        display: inline-block;
+        width: 30%;
+        padding-top: 10px;
+      }
+
+      .comp-assets-fonts-listCont-item-tag{
+        vertical-align: top;
+        text-align: center;
+        display: inline-block;
+        width: 30%;
+        padding-top: 10px;
+      }
+
+      .comp-assets-fonts-listCont-item-deleteCont{
+        vertical-align: top;
+        text-align: center;
+        display: inline-block;
+        width: 40%;
+        padding-top: 10px;
+      }
+
+        .comp-assets-fonts-listCont-item-deleteCont-img{
+          height: 30px;
+          width: auto;
+          cursor: pointer;
+        }
+
+        .comp-assets-fonts-listCont-item-deleteCont-img:hover{
+          transform: rotate(10deg);
+        }
