@@ -255,6 +255,11 @@ function build(form){
       get = require('./align.js')(main,field,form.data);
     }//align
 
+    if(field.type === "editor"){
+      engine.view.remove(fieldCont);
+      require('./editor.js')(main,field,form.data);
+    }
+
   }//element loop
 
 }

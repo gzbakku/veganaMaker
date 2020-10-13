@@ -44,12 +44,14 @@ $font:'Montserrat';
 }
 
 .page-main-main-builder{
+  position: relative;
   display: inline-block;
   vertical-align: top;
   width: 30%;
   height: 100%;
   overflow: auto;
   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  z-index: 99999;
   // border:5px solid green;
 }
 

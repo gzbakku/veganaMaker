@@ -28,12 +28,14 @@
   overflow: auto; }
 
 .page-main-main-builder {
+  position: relative;
   display: inline-block;
   vertical-align: top;
   width: 30%;
   height: 100%;
   overflow: auto;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); }
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  z-index: 99999; }
 
 .comp-assets-fonts {
   overflow: auto; }
@@ -348,6 +350,63 @@
   color: #ff0831;
   cursor: pointer; }
 
+.comp-form-editor {
+  margin-bottom: 10px; }
+
+.comp-form-editor-tag {
+  vertical-align: top;
+  text-align: center;
+  display: inline-block;
+  width: 50%; }
+
+.comp-form-editor-buttonCont {
+  vertical-align: top;
+  text-align: center;
+  display: inline-block;
+  width: 50%; }
+
+.comp-form-editor-buttonCont-button {
+  background-color: #75b8ff;
+  padding: 5px;
+  display: inline-block;
+  border-radius: 5px;
+  color: white;
+  cursor: pointer; }
+
+.comp-editor-box {
+  position: fixed;
+  height: 100vh;
+  width: 100vw;
+  top: 0px;
+  bottom: 0px;
+  right: 0px;
+  left: 0px;
+  z-index: 999999; }
+
+.comp-editor-box-menu {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 1;
+  text-align: right; }
+
+.comp-editor-box-menu-button {
+  height: 40px;
+  width: 40px;
+  margin: 10px;
+  cursor: pointer; }
+
+.comp-editor-box-editorCover {
+  position: absolute;
+  height: 100%;
+  width: 100%; }
+
+.comp-editor-box-editor, .comp-editor-box-editor * {
+  height: 100%;
+  width: 100%;
+  margin: 0px;
+  font-family: "Monaco", "Menlo", "Ubuntu Mono", "Droid Sans Mono", "Consolas", monospace !important; }
+
 .comp-builder-form-select-option {
   font-family: "Montserrat";
   background-color: black;
@@ -554,7 +613,8 @@
   height: 100vh;
   width: 100vw;
   top: 0px;
-  left: 0px; }
+  left: 0px;
+  z-index: 9999999; }
 
 .comp-alert-main-background {
   height: 100%;
@@ -596,7 +656,8 @@
   height: 100vh;
   width: 100vw;
   top: 0px;
-  left: 0px; }
+  left: 0px;
+  z-index: 999999; }
 
 .comp-card-background {
   background-color: #b8b8b8;

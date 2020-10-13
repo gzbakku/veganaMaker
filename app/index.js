@@ -1,4 +1,9 @@
 
+var ace = require('brace');
+require('brace/mode/javascript');
+require('brace/mode/json');
+require('brace/theme/twilight');
+
 //import all the pages here which you want to be in the app and use engine.get.pageModule api to get the page
 const mainPage = require('./pages/mainPage/page');
 

@@ -41,7 +41,7 @@ function draw_element(parent,element,nameCollection,elementIdCollection){
   let make;
   if(element.type === "div"){
     if(element.should_loop){
-      if(element.loop_array){
+      if(element.loop_array && element.loop_array.length > 0){
         for(let item of JSON.parse(element.loop_array)){
           const local_make = engine.make.div({
             parent:parent,
@@ -66,7 +66,7 @@ function draw_element(parent,element,nameCollection,elementIdCollection){
 
   if(element.type === "image"){
     if(element.should_loop){
-      if(element.loop_array){
+      if(element.loop_array && element.loop_array.length > 0){
         for(let item of JSON.parse(element.loop_array)){
           const local_make = engine.make.image({
             parent:parent,
@@ -93,7 +93,7 @@ function draw_element(parent,element,nameCollection,elementIdCollection){
 
   if(element.type === "href"){
     if(element.should_loop){
-      if(element.loop_array){
+      if(element.loop_array && element.loop_array.length > 0){
         for(let item of JSON.parse(element.loop_array)){
           const local_make = engine.make.a({
             parent:parent,
@@ -133,7 +133,7 @@ function draw_element(parent,element,nameCollection,elementIdCollection){
   if(element.type === "input"){
     if(element.controllers.type !== "select"){//all inputs
       if(element.should_loop){
-        if(element.loop_array){
+        if(element.loop_array && element.loop_array.length > 0){
           for(let item of JSON.parse(element.loop_array)){
             const local_make = engine.make.input({//non select
               parent:parent,
@@ -160,7 +160,7 @@ function draw_element(parent,element,nameCollection,elementIdCollection){
       }
     } else {//only select input
       if(element.should_loop){//looping select
-        if(element.loop_array){
+        if(element.loop_array && element.loop_array.length > 0){
           for(let item of JSON.parse(element.loop_array)){
             let options = [];
             if(element.controllers.options){

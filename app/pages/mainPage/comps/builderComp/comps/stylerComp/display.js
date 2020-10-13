@@ -18,7 +18,8 @@ module.exports = async (parent,active,show)=>{
         {text:'px',value:'px'},
         {text:'vh',value:'vh'},
         {text:'vw',value:'vw'},
-        {text:'em',value:'em'}
+        {text:'em',value:'em'},
+        {text:'%',value:'%'}
       ],function:(v)=>{
         if(!v){engine.global.function.remove_style("height");} else {
           engine.global.function.add_style("height",v.input + v.select);
@@ -28,7 +29,8 @@ module.exports = async (parent,active,show)=>{
         {text:'px',value:'px'},
         {text:'vh',value:'vh'},
         {text:'vw',value:'vw'},
-        {text:'em',value:'em'}
+        {text:'em',value:'em'},
+        {text:'%',value:'%'}
       ],function:(v)=>{
         if(!v){engine.global.function.remove_style("width");} else {
           engine.global.function.add_style("width",v.input + v.select);

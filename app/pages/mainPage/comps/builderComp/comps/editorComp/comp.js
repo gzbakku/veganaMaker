@@ -49,7 +49,10 @@ async function build(controller){
     await engine.global.comp.formComp.init(main,{
       data:active.controllers,
       form:[
-        {type:'textarea',tag:'text',dtag:'text',placeholder:'div body text',function:(v)=>{controller.functions.update_field("text",v);}}
+        {type:'single',tag:'text',dtag:'text',placeholder:'div body text',function:(v)=>{controller.functions.update_field("text",v);}},
+        {type:'editor',tag:'advance text',dtag:'text',function:(v)=>{
+          controller.functions.update_field("text",v);
+        }}
       ]
     });
   }
@@ -81,6 +84,9 @@ async function build(controller){
           {text:'textarea',value:'textarea'}
         ],function:(v)=>{controller.functions.update_field("type",v);}},
         {type:'single',tag:'value',dtag:'value',itype:'string',placeholder:'value',function:(v)=>{controller.functions.update_field("value",v);}},
+        {type:'editor',tag:'advance value',dtag:'value',function:(v)=>{
+          controller.functions.update_field("value",v);
+        }}
       ]
     });
   }
@@ -89,7 +95,7 @@ async function build(controller){
     await engine.global.comp.formComp.init(main,{
       data:active.controllers,
       form:[
-        {type:'single',tag:'placeholder',dtag:'placeholder',itype:'string',placeholder:'placeholder',function:(v)=>{controller.functions.update_field("placeholder",v);}},
+        {type:'single',tag:'place holder',dtag:'placeholder',itype:'string',placeholder:'placeholder',function:(v)=>{controller.functions.update_field("placeholder",v);}},
       ]
     });
   }
@@ -114,12 +120,12 @@ async function build(controller){
           {text:'url',value:'url'},
         ],function:(v)=>{controller.functions.update_field("type",v,true);}},
         {type:'single',tag:'href text',dtag:'text',itype:'string',placeholder:'href text',function:(v)=>{controller.functions.update_field("text",v);}},
-        {type:'textarea',tag:'base function',dtag:'baseFunction',itype:'string',placeholder:'this functions runs before the link is followed upon.',function:(v)=>{
-          controller.functions.update_field("baseFunction",v);
-        }},
-        {type:'textarea',tag:'super function',dtag:'superFunction',itype:'string',placeholder:'this function is called upon click and ends there no follow up to the link is performed.',function:(v)=>{
+        {type:'editor',tag:'superFunction',dtag:'superFunction',lang:'js',function:(v)=>{
           controller.functions.update_field("superFunction",v);
         }},
+        {type:'editor',tag:'baseFunction',dtag:'baseFunction',lang:'js',function:(v)=>{
+          controller.functions.update_field("baseFunction",v);
+        }}
       ]
     });
   }
@@ -151,8 +157,11 @@ async function build(controller){
     await engine.global.comp.formComp.init(main,{
       data:active.controllers,
       form:[
-        {type:'textarea',tag:'function',dtag:'function',itype:'string',placeholder:'()=>{}',function:(v)=>{
+        {type:'editor',tag:'function',dtag:'function',lang:'js',function:(v)=>{
           controller.functions.update_field("function",v);
+        }},
+        {type:'editor',tag:'touch',dtag:'touch',lang:'js',function:(v)=>{
+          controller.functions.update_field("touch",v);
         }}
       ]
     });
@@ -174,27 +183,19 @@ async function build(controller){
         controller.functions.update_loop(v);
       }},
       {type:'single',tag:'track',dtag:'track',itype:'string',placeholder:'track name',function:(v)=>{controller.functions.update_track(v);}},
+      {type:'editor',tag:'array to loop',dtag:'loop_array',lang:'json',function:(v)=>{
+        try{
+          JSON.parse(v);
+          controller.functions.update_loop_array(v);
+        }catch(_){
+          engine.ui.getComp('mainUi','alertComp').init(compId,{
+            message:'given value is not a valid json array.'
+          });
+          return;
+        }
+      }}
     ]
   });
-
-  if(active.should_loop){
-    await engine.global.comp.formComp.init(main,{
-      data:active,
-      form:[
-        {type:'textarea',tag:'array to loop',dtag:'loop_array',itype:'string',placeholder:'valid json to loop',function:(v)=>{
-          try{
-            JSON.parse(v);
-            controller.functions.update_loop_array(v);
-          }catch(_){
-            engine.ui.getComp('mainUi','alertComp').init(compId,{
-              message:'given value is not a valid json array.'
-            });
-            return;
-          }
-        }}
-      ]
-    });
-  }
 
 }
 
