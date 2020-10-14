@@ -221,6 +221,32 @@
 .comp-assets-colors-list-item-delete-img:hover {
   transform: rotate(10deg); }
 
+.comp-assets-host-field {
+  width: 90%;
+  max-width: 400px;
+  border: 5px solid #75b8ff;
+  border-radius: 10px;
+  margin: auto;
+  overflow: hidden;
+  background-color: #75b8ff; }
+
+.comp-assets-host-field-input {
+  width: 60%;
+  border: 0px;
+  height: 30px;
+  padding-left: 10px;
+  border-radius: 10px; }
+
+.comp-assets-host-field-button {
+  width: 40%;
+  height: 30px;
+  background-color: #75b8ff;
+  color: white;
+  display: inline-block;
+  padding: 5px;
+  text-align: center;
+  cursor: pointer; }
+
 .comp-builder-children-list {
   width: 95%;
   border-radius: 5px;

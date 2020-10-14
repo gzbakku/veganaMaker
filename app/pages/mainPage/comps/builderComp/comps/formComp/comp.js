@@ -153,6 +153,7 @@ function build(form){
         value:sval
       });
       get = ()=>{
+        if(!engine.binder.value(input)){return null;}
         return {
           input:engine.binder.value(input),
           select:engine.binder.value(select)

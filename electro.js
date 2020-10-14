@@ -18,7 +18,7 @@ function createWindow(){
     }
   });
   win.loadFile('electric.html');
-  win.webContents.openDevTools();
+  // win.webContents.openDevTools();
 }
 
 ipc.respondTo('reload', (sender) => {

@@ -74,14 +74,19 @@ function draw_element(parent,element,nameCollection,elementIdCollection){
   }
 
   if(element.type === "image"){
+
+
+
     if(element.should_loop){
       if(element.loop_array && element.loop_array.length > 0){
         for(let item of JSON.parse(element.loop_array)){
+          const lock = element.controllers.type === "local" ?
+          window.host + extract_from_json(element.controllers.location,item) : element.controllers.location;
           const local_make = engine.make.image({
             parent:parent,
             draw:element.style,
-            type:extract_from_json(element.controllers.type,item),
-            location:extract_from_json(element.controllers.location,item),
+            type:"url",
+            location:lock,
             function:(i,v)=>{
               if(typeof(eval(element.controllers.function)) !== "function"){return;}
               eval(element.controllers.function)(i,v,item);
@@ -93,11 +98,12 @@ function draw_element(parent,element,nameCollection,elementIdCollection){
         }
       }
     } else {
+      const lock = element.controllers.type === "local" ? window.host + element.controllers.location : element.controllers.location;
       make = engine.make.image({
         parent:parent,
         draw:element.style,
-        type:element.controllers.type,
-        location:element.controllers.location,
+        type:"url",
+        location:lock,
         function:(i,v)=>{
           if(typeof(eval(element.controllers.function)) !== "function"){return;}
           eval(element.controllers.function)(i,v);

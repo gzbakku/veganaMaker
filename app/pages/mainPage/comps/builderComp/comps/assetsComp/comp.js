@@ -20,6 +20,7 @@ const init = (pid) => {         //pid referes to the parentPageId, pass this var
 
 }
 
+const host = require('./host');
 const colors = require('./colors');
 const fonts = require('./fonts');
 
@@ -29,6 +30,7 @@ function build(){
     title:'assets'
   });
 
+  host(card);
   colors(card);
   fonts(card);
 

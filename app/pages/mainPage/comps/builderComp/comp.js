@@ -39,34 +39,15 @@ async function build(){
   const save = require("./save/index.js");
   // save.init();
 
-  // {
-  //   type:'div',
-  //   name:'master',
-  //   style:{
-  //     all:{},
-  //     browser:{
-  //       mobile:{}
-  //     }
-  //   },
-  //   controllers:{},
-  //   should_loop:false,
-  //   loop_array:[],
-  //   children:{}
-  // }
-
   let menuOptions = [];
   if(active.length > 0){menuOptions.push({t:'b',image:'assets/images/back.png',function:()=>{
     engine.global.function.pop_active();
     engine.view.remove(main);
     build();
   }});}
-  // let read_result_from_main_process_id = engine.data.get("read_result_from_main_process_id","session");;
   menuOptions.push({image:'assets/images/folder.png',function:()=>{
     ipc.call("open_view");
     ipc.on("read_result_from_main_process",(e,d)=>{
-      // console.log({b:read_result_from_main_process_id,n:d.id});
-      // if(read_result_from_main_process_id === d.id){return;}
-      // engine.data.reset("read_result_from_main_process_id",d.id,"session");
       if(!d.result){
         return engine.ui.getComp('mainUi','alertComp').init(compId,{
           message:'failed to open file'
@@ -176,7 +157,7 @@ async function build(){
       },
       add_element:(name,type)=>{
         if(!hold.children){hold.children = {};}
-        hold.children[name] = {
+        let build = {
           type:type,
           name:name,
           style:{
@@ -190,6 +171,16 @@ async function build(){
           loop_array:{},
           children:{}
         };
+        if(type === "image"){
+          build.controllers["type"] = "url";
+        }
+        if(type === "input"){
+          build.controllers["type"] = "string";
+        }
+        if(type === "href"){
+          build.controllers["type"] = "local";
+        }
+        hold.children[name] = build;
         reset();
       },
       remove_child:(name)=>{
@@ -242,8 +233,10 @@ async function build(){
     lastBuilderTab = editorComp;
   } else if(lastActiveTab === "styler"){
     lastBuilderTab = stylerComp;
-  } else if(lastActiveTab === "children"){
+  } else if(lastActiveTab === "children" && builder.type !== "image" && builder.type !== "input"){
     lastBuilderTab = childrenComp;
+  } else {
+    lastBuilderTab = editorComp;
   }
 
   const tabsRouter = engine.make.div({
@@ -252,6 +245,8 @@ async function build(){
   });
 
   const compRouter = engine.router.init.comps(tabsRouter,lastBuilderTab,controller);
+
+  // assetsComp.init(compId);
 
 }
 

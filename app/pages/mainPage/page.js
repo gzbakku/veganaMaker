@@ -44,6 +44,10 @@ function build(){
   if(!engine.data.get('active','local')){
     engine.data.set("active",[],'local');
   }
+  if(!engine.data.get('host','local')){
+    engine.data.reset("host","http://localhost:5566/",'local');
+  }
+  window.host = engine.data.get('host','local');
 
   if(!engine.data.get("fonts","local")){engine.data.reset("fonts",{},"local");}
   window.fonts = engine.data.get("fonts","local");
