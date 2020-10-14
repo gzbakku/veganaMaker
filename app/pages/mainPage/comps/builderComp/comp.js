@@ -36,12 +36,74 @@ async function build(){
     class:'comp-builder-main',
   });
 
+  const save = require("./save/index.js");
+  // save.init();
+
+  // {
+  //   type:'div',
+  //   name:'master',
+  //   style:{
+  //     all:{},
+  //     browser:{
+  //       mobile:{}
+  //     }
+  //   },
+  //   controllers:{},
+  //   should_loop:false,
+  //   loop_array:[],
+  //   children:{}
+  // }
+
   let menuOptions = [];
   if(active.length > 0){menuOptions.push({t:'b',image:'assets/images/back.png',function:()=>{
     engine.global.function.pop_active();
     engine.view.remove(main);
     build();
   }});}
+  // let read_result_from_main_process_id = engine.data.get("read_result_from_main_process_id","session");;
+  menuOptions.push({image:'assets/images/folder.png',function:()=>{
+    ipc.call("open_view");
+    ipc.on("read_result_from_main_process",(e,d)=>{
+      // console.log({b:read_result_from_main_process_id,n:d.id});
+      // if(read_result_from_main_process_id === d.id){return;}
+      // engine.data.reset("read_result_from_main_process_id",d.id,"session");
+      if(!d.result){
+        return engine.ui.getComp('mainUi','alertComp').init(compId,{
+          message:'failed to open file'
+        });
+      }
+      if(!engine.validate.json({
+        type:{type:'string',options:['div','image','input','href']},
+        name:{type:'string',min:1,max:1024},
+        style:{type:'object',min:2,max:2},
+        controllers:{type:'object',max:50},
+        should_loop:{type:'boolean'},
+        loop_array:{type:'array',max:500},
+        children:{type:'object',max:500}
+      },d.result)){
+        return engine.ui.getComp('mainUi','alertComp').init(compId,{
+          message:'given file is not compatible with this version of vegana maker.'
+        });
+      }
+      engine.data.reset("builder",d.result,"local");
+      engine.global.function.clean_active();
+      window.active = [];
+      window.builder = d.result;
+      engine.global.function.redraw_base();
+    });
+  }});
+  menuOptions.push({image:'assets/images/add.png',function:()=>{
+    engine.global.function.reset_builder();
+    engine.global.function.clean_active();
+    engine.global.function.redraw_base();
+  }});
+  menuOptions.push({image:'assets/images/reload.png',function:()=>{
+    engine.view.remove(main);
+    build();
+  }});
+  menuOptions.push({image:'assets/images/save.png',function:()=>{
+    save.init();
+  }});
   menuOptions.push({image:'assets/images/info.png',function:()=>{
     infoComp.init(compId);
   }});
@@ -70,6 +132,11 @@ async function build(){
     for(let i of active){
       hold = hold.children[i];
     }
+  }
+
+  if(!hold){
+    hold = builder;
+    engine.global.function.clean_active();
   }
 
   if(!hold.style){hold.style = {};}
@@ -125,6 +192,10 @@ async function build(){
         };
         reset();
       },
+      remove_child:(name)=>{
+        delete hold.children[name];
+        reset();
+      }
     }
   };
 

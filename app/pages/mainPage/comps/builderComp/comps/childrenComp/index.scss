@@ -40,3 +40,14 @@
         .comp-builder-children-list-item-val-name{
           color:$color-red;
         }
+
+        .comp-builder-children-list-item-val-delete{
+          padding: 5px;
+          text-align: center;
+        }
+
+          .comp-builder-children-list-item-val-delete-img{
+            height: 30px;
+            width: auto;
+            cursor: pointer;
+          }

@@ -42,13 +42,19 @@ function draw_element(parent,element,nameCollection,elementIdCollection){
   if(element.type === "div"){
     if(element.should_loop){
       if(element.loop_array && element.loop_array.length > 0){
+        // console.log(eval(element.controllers.function)());
         for(let item of JSON.parse(element.loop_array)){
+          // console.log(item);
           const local_make = engine.make.div({
             parent:parent,
             draw:element.style,
             text:extract_from_json(element.controllers.text,item),
-            function:eval(element.controllers.function)
+            function:(i,v)=>{
+              if(typeof(eval(element.controllers.function)) !== "function"){return;}
+              eval(element.controllers.function)(i,v,item);
+            }
           });
+          // console.log(local_make);
           if(element.track){
             elementIdCollection[extract_from_json(element.track,item)] = local_make;
           }
@@ -59,7 +65,10 @@ function draw_element(parent,element,nameCollection,elementIdCollection){
         parent:parent,
         draw:element.style,
         text:element.controllers.text,
-        function:eval(element.controllers.function)
+        function:(i,v)=>{
+          if(typeof(eval(element.controllers.function)) !== "function"){return;}
+          eval(element.controllers.function)(i,v);
+        }
       });
     }
   }
@@ -73,7 +82,10 @@ function draw_element(parent,element,nameCollection,elementIdCollection){
             draw:element.style,
             type:extract_from_json(element.controllers.type,item),
             location:extract_from_json(element.controllers.location,item),
-            function:eval(element.controllers.function)
+            function:(i,v)=>{
+              if(typeof(eval(element.controllers.function)) !== "function"){return;}
+              eval(element.controllers.function)(i,v,item);
+            }
           });
           if(element.track){
             elementIdCollection[extract_from_json(element.track,item)] = local_make;
@@ -86,7 +98,10 @@ function draw_element(parent,element,nameCollection,elementIdCollection){
         draw:element.style,
         type:element.controllers.type,
         location:element.controllers.location,
-        function:eval(element.controllers.function)
+        function:(i,v)=>{
+          if(typeof(eval(element.controllers.function)) !== "function"){return;}
+          eval(element.controllers.function)(i,v);
+        }
       });
     }
   }
@@ -105,8 +120,12 @@ function draw_element(parent,element,nameCollection,elementIdCollection){
             panel:extract_from_json(element.controllers.panel,item),
             params:extract_from_json(element.controllers.params,item),
             text:extract_from_json(element.controllers.text,item),
-            baseFunction:eval(element.controllers.baseFunction),
-            superFunction:eval(element.controllers.superFunction),
+            baseFunction:typeof(eval(element.controllers.superFunction)) === "function" ? (i,v)=>{
+              eval(element.controllers.superFunction)(i,v,item);
+            } : null,
+            superFunction:typeof(eval(element.controllers.superFunction)) === "function" ? (i,v)=>{
+              eval(element.controllers.superFunction)(i,v,item);
+            } : null
           });
           if(element.track){
             elementIdCollection[extract_from_json(element.track,item)] = local_make;
@@ -124,14 +143,18 @@ function draw_element(parent,element,nameCollection,elementIdCollection){
         panel:element.controllers.panel,
         params:element.controllers.params,
         text:element.controllers.text,
-        baseFunction:eval(element.controllers.baseFunction),
-        superFunction:eval(element.controllers.superFunction),
+        baseFunction:typeof(eval(element.controllers.superFunction)) === "function" ? (i,v)=>{
+          eval(element.controllers.superFunction)(i,v);
+        } : null,
+        superFunction:typeof(eval(element.controllers.superFunction)) === "function" ? (i,v)=>{
+          eval(element.controllers.superFunction)(i,v);
+        } : null
       });
     }
   }
 
   if(element.type === "input"){
-    if(element.controllers.type !== "select"){//all inputs
+    if(element.controllers.type !== "select" && element.controllers.type !== "textarea"){//all inputs
       if(element.should_loop){
         if(element.loop_array && element.loop_array.length > 0){
           for(let item of JSON.parse(element.loop_array)){
@@ -141,7 +164,10 @@ function draw_element(parent,element,nameCollection,elementIdCollection){
               type:element.controllers.type,
               value:extract_from_json(element.controllers.value,item),
               placeholder:extract_from_json(element.controllers.placeholder,item),
-              function:eval(element.controllers.function),
+              function:(i,v)=>{
+                if(typeof(eval(element.controllers.function)) !== "function"){return;}
+                eval(element.controllers.function)(i,v,item);
+              }
             });
             if(element.track){
               elementIdCollection[extract_from_json(element.track,item)] = local_make;
@@ -155,10 +181,46 @@ function draw_element(parent,element,nameCollection,elementIdCollection){
           type:element.controllers.type,
           value:element.controllers.options,
           placeholder:element.controllers.placeholder,
-          function:eval(element.controllers.function),
+          function:(i,v)=>{
+            if(typeof(eval(element.controllers.function)) !== "function"){return;}
+            eval(element.controllers.function)(i,v);
+          }
         });
       }
-    } else {//only select input
+    } else if(element.controllers.type === "textarea"){
+      if(element.should_loop){//looping select
+        if(element.loop_array && element.loop_array.length > 0){
+          for(let item of JSON.parse(element.loop_array)){
+            const local_make = engine.make.textarea({
+              parent:parent,
+              draw:element.style,
+              value:extract_from_json(element.controllers.value,item),
+              rows:element.controllers.rows,
+              placeholder:extract_from_json(element.controllers.placeholder,item),
+              function:(i,v)=>{
+                if(typeof(eval(element.controllers.function)) !== "function"){return;}
+                eval(element.controllers.function)(i,v,item);
+              }
+            });
+            if(element.track){
+              elementIdCollection[extract_from_json(element.track,item)] = local_make;
+            }//track element
+          }//loop array items
+        }//loop array present
+      } else {
+        engine.make.textarea({
+          parent:parent,
+          draw:element.style,
+          value:element.controllers.value,
+          rows:element.controllers.rows,
+          placeholder:element.controllers.placeholder,
+          function:(i,v)=>{
+            if(typeof(eval(element.controllers.function)) !== "function"){return;}
+            eval(element.controllers.function)(i,v);
+          }
+        });
+      }//non looping
+    } else if(element.controllers.type === "select") {//only select input
       if(element.should_loop){//looping select
         if(element.loop_array && element.loop_array.length > 0){
           for(let item of JSON.parse(element.loop_array)){
@@ -174,7 +236,10 @@ function draw_element(parent,element,nameCollection,elementIdCollection){
               draw:element.style,
               value:extract_from_json(element.controllers.value,item),
               options:options,
-              function:eval(element.controllers.function),
+              function:(i,v)=>{
+                if(typeof(eval(element.controllers.function)) !== "function"){return;}
+                eval(element.controllers.function)(i,v,item);
+              }
             });
             if(element.track){
               elementIdCollection[extract_from_json(element.track,item)] = local_make;
@@ -194,7 +259,10 @@ function draw_element(parent,element,nameCollection,elementIdCollection){
           type:element.controllers.type,
           value:element.controllers.value,
           options:options,
-          function:eval(element.controllers.function),
+          function:(i,v)=>{
+            if(typeof(eval(element.controllers.function)) !== "function"){return;}
+            eval(element.controllers.function)(i,v);
+          }
         });
       }//non looping
     }//select input

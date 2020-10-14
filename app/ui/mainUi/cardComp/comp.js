@@ -23,7 +23,7 @@ const init = (pid,data) => {         //pid referes to the parentPageId, pass thi
 function build(data){
 
   let main = engine.make.div({
-    parent:'page-router',
+    parent:compId,
     class:'comp-card-main'
   });
 
@@ -53,6 +53,7 @@ function build(data){
       class:'comp-card-heading-button',
       text:'close',
       function:()=>{
+        if(data.closeFunction){data.closeFunction();}
         engine.view.remove(main);
       }
     });

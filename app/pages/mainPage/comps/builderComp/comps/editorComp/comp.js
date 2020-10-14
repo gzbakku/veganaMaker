@@ -111,6 +111,17 @@ async function build(controller){
     });
   }
 
+  if(active.type === "input" && active.controllers.type === "textarea"){
+    await engine.global.comp.formComp.init(main,{
+      data:active.controllers,
+      form:[
+        {type:'single',tag:'rows',dtag:'rows',itype:'string',placeholder:'rows',function:(v)=>{
+          controller.functions.update_field("rows",v);
+        }},
+      ]
+    });
+  }
+
   if(active.type === "href"){
     await engine.global.comp.formComp.init(main,{
       data:active.controllers,

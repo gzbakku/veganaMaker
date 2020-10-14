@@ -1,0 +1,32 @@
+
+
+.comp-builder-save{
+
+}
+
+  .comp-builder-save-form{
+    text-align: center;
+    padding: 10px;
+    padding-top: 10vh;
+  }
+
+    .comp-builder-save-form-input{
+      border: 5px solid $color-blue;
+      padding: 10px;
+      border-radius: 10px;
+      font-size: 24px;
+      width: 90%;
+      // border: 5px solid red;
+      text-align: center;
+    }
+
+    .comp-builder-save-form-button{
+      display: inline-block;
+      background-color: $color-green;
+      color:white;
+      padding: 10px;
+      border-radius: 10px;
+      margin-top: 10vh;
+      font-size: 24px;
+      cursor: pointer;
+    }

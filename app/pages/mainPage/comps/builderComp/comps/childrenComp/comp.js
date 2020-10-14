@@ -57,24 +57,43 @@ async function build(controller){
 
     const list = engine.make.div({
       parent:listCont,
-      class:'comp-builder-children-list-item',
-      function:()=>{
-        engine.global.function.push_active(child.name);
-        controller.functions.remake();
-      }
+      class:'comp-builder-children-list-item'
     });
 
       engine.make.div({
         parent:list,
         class:'comp-builder-children-list-item-val comp-builder-children-list-item-val-type',
-        text:child.type
+        text:child.type,
+        function:()=>{
+          engine.global.function.push_active(child.name);
+          controller.functions.remake();
+        }
       });
 
       engine.make.div({
         parent:list,
         class:'comp-builder-children-list-item-val comp-builder-children-list-item-val-name',
-        text:child.name
+        text:child.name,
+        function:()=>{
+          engine.global.function.push_active(child.name);
+          controller.functions.remake();
+        }
       });
+
+      const imageCont = engine.make.div({
+        parent:list,
+        class:'comp-builder-children-list-item-val comp-builder-children-list-item-val-delete',
+      });
+
+        engine.make.image({
+          parent:imageCont,
+          class:'comp-builder-children-list-item-val-delete-img',
+          type:'local',
+          location:'assets/images/delete.png',
+          function:()=>{
+            controller.functions.remove_child(childName);
+          }
+        });
 
   }
 

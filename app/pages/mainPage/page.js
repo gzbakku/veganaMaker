@@ -19,7 +19,11 @@ const builderComp = require("./comps/builderComp/comp");
 function build(){
 
   if(!engine.data.get("builder","local")){
-    engine.data.set("builder",{
+    set_builder();
+  }
+
+  function reset_builder(){
+    engine.data.reset("builder",{
       type:'div',
       name:'master',
       style:{
@@ -34,6 +38,8 @@ function build(){
       children:{}
     },"local");
   }
+
+  engine.add.function("reset_builder",reset_builder);
 
   if(!engine.data.get('active','local')){
     engine.data.set("active",[],'local');
@@ -61,6 +67,9 @@ function build(){
     window.active.splice(window.active.length-1,1);
     engine.data.reset("active",window.active,"local");
   });
+  engine.add.function("clean_active",()=>{
+    engine.data.reset("active",[],"local");
+  });
 
   engine.add.function("make_section",make_section);
 
@@ -68,6 +77,11 @@ function build(){
     parent:pageId,
     class:'page-main-main'
   });
+
+  engine.add.function("redraw_base",()=>{
+    engine.view.remove(main);
+    build();
+  })
 
   const left = engine.make.div({
     parent:main,
