@@ -666,6 +666,29 @@
   font-size: 24px;
   cursor: pointer; }
 
+.comp-builder-save-as_is-message {
+  padding: 10px; }
+
+.comp-builder-save-as_is-tag {
+  padding: 15px; }
+
+.comp-builder-save-as_is-answer {
+  text-align: right; }
+
+.comp-builder-save-as_is-answer-button {
+  margin: 10px;
+  display: inline-block;
+  background-color: #75b8ff;
+  padding: 5px;
+  color: white;
+  border-radius: 5px;
+  padding-left: 10px;
+  padding-right: 10px;
+  min-width: 50px;
+  text-align: center;
+  font-size: 24px;
+  cursor: pointer; }
+
 .comp-alert-main {
   position: fixed;
   height: 100vh;

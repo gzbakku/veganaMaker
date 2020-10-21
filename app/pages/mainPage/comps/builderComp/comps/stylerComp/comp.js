@@ -63,7 +63,7 @@ async function build(controller){
           engine.make.removeClass({id:active_opt_id,class:'comp-builder-styler-platforms-opt_active'});
           active_opt_id = opt;
           engine.data.reset("active_platform","pc","local");
-          engine.view.rmeove(main);
+          engine.view.remove(main);
           build(controller);
         }
         if(p.type === "mobile" && active_platform === "pc"){
@@ -72,7 +72,7 @@ async function build(controller){
           engine.make.removeClass({id:active_opt_id,class:'comp-builder-styler-platforms-opt_active'});
           active_opt_id = opt;
           engine.data.reset("active_platform","mobile","local");
-          engine.view.rmeove(main);
+          engine.view.remove(main);
           build(controller);
         }
       }

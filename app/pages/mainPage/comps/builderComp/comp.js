@@ -54,6 +54,16 @@ async function build(){
         });
       }
       if(!engine.validate.json({
+        name:{type:'string',max:512,min:1},
+        fonts:{type:'object',max:500},
+        colors:{type:'object',max:500},
+        builder:{type:'object',max:7,min:7},
+      },d.data)){
+        return engine.ui.getComp('mainUi','alertComp').init(compId,{
+          message:'given file is not compatible with this version of vegana maker.'
+        });
+      }
+      if(!engine.validate.json({
         type:{type:'string',options:['div','image','input','href']},
         name:{type:'string',min:1,max:1024},
         style:{type:'object',min:2,max:2},
@@ -61,12 +71,16 @@ async function build(){
         should_loop:{type:'boolean'},
         loop_array:{type:'array',max:500},
         children:{type:'object',max:500}
-      },d.result)){
+      },d.data.builder)){
         return engine.ui.getComp('mainUi','alertComp').init(compId,{
-          message:'given file is not compatible with this version of vegana maker.'
+          message:'given builder is not compatible with this version of vegana maker.'
         });
       }
-      engine.data.reset("builder",d.result,"local");
+      engine.data.reset("builder",d.data.builder,"local");
+      engine.data.reset("fonts",d.data.fonts,"local");
+      engine.data.reset("colors",d.data.colors,"local");
+      engine.data.reset("viewName",d.data.name,"local");
+      engine.data.reset("viewPath",d.path,"local");
       engine.global.function.clean_active();
       window.active = [];
       window.builder = d.result;
@@ -74,6 +88,10 @@ async function build(){
     });
   }});
   menuOptions.push({image:'assets/images/add.png',function:()=>{
+    engine.data.reset('fonts',[],'local');
+    engine.data.reset('colors',[],'local');
+    engine.data.reset('viewName',null,'local');
+    engine.data.reset('viewPath',null,'local');
     engine.global.function.reset_builder();
     engine.global.function.clean_active();
     engine.global.function.redraw_base();

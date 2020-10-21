@@ -19,7 +19,7 @@ const builderComp = require("./comps/builderComp/comp");
 function build(){
 
   if(!engine.data.get("builder","local")){
-    set_builder();
+    reset_builder();
   }
 
   function reset_builder(){
@@ -77,28 +77,38 @@ function build(){
 
   engine.add.function("make_section",make_section);
 
-  const main = engine.make.div({
-    parent:pageId,
-    class:'page-main-main'
-  });
+  if(engine.get.platform("pc")){
+    const main = engine.make.div({
+      parent:pageId,
+      class:'page-main-main'
+    });
+    engine.add.function("redraw_base",()=>{
+      engine.view.remove(main);
+      build();
+    })
+    const left = engine.make.div({
+      parent:main,
+      class:'page-main-main-canvas'
+    });
+    const right = engine.make.div({
+      parent:main,
+      class:'page-main-main-builder'
+    });
+    canvasComp.init(left);
+    builderComp.init(right);
+  }
 
-  engine.add.function("redraw_base",()=>{
-    engine.view.remove(main);
-    build();
-  })
-
-  const left = engine.make.div({
-    parent:main,
-    class:'page-main-main-canvas'
-  });
-
-  const right = engine.make.div({
-    parent:main,
-    class:'page-main-main-builder'
-  });
-
-  canvasComp.init(left);
-  builderComp.init(right);
+  if(engine.get.platform("mobile")){
+    const main = engine.make.div({
+      parent:pageId,
+      class:'page-main-main_mobile'
+    });
+    engine.add.function("redraw_base",()=>{
+      engine.view.remove(main);
+      build();
+    })
+    canvasComp.init(main);
+  }
 
 }
 

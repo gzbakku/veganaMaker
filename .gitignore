@@ -13,3 +13,5 @@
 **/bin/
 **/pkg/
 **/wasm-pack.log
+
+out/

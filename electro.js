@@ -8,6 +8,7 @@ const uniqid = require("uniqid");
 let win;
 
 function createWindow(){
+
   win = new browser({
     width: 800,
     height: 600,
@@ -21,21 +22,50 @@ function createWindow(){
   // win.webContents.openDevTools();
 }
 
+let mobile;
+function createMobileWindow(){
+  mobile = new browser({
+    width: 300,
+    height: 600,
+    frame:true,
+    // titleBarStyle: 'customButtonsOnHover',
+    webPreferences: {
+      nodeIntegration: true
+    }
+  });
+  mobile.loadFile('electric.html');
+  // mobile.webContents.openDevTools();
+}
+
+app.on('ready', make_all_windows);
+function make_all_windows(){
+  createWindow();
+  createMobileWindow();
+}
+
 ipc.respondTo('reload', (sender) => {
+  console.log("reload");
   win.close();
+  mobile.close();
   //app.quit();
   createWindow();
+  createMobileWindow();
 });
 
 ipc.respondTo('save_view', async (event,data) => {
 
   let name = data.name;
-  while(name.indexOf(" ") >= 0){
-    name = name.replace(" ","_");
+  if(name.indexOf(" ") >= 0){
+    while(name.indexOf(" ") >= 0){
+      name = name.replace(" ","_");
+    }
   }
-  name += "View";
+  if(name.indexOf("View") < 0){
+    name += "View";
+  }
 
-  if(true){
+  let path = data.path;
+  if(true && !data.path){
     const generate = await electron.dialog.showOpenDialog({
       title: "Save View",
       buttonLabel : "generate",
@@ -55,30 +85,46 @@ ipc.respondTo('save_view', async (event,data) => {
           raw_path += "/views"
         }
       }
-      const base_path = raw_path + "/" + name + "/";
-      const ensure_base_dir = await ensure_dir(base_path);
-      if(!ensure_base_dir){return false;}
-      const add_js = await make_file(base_path + name + ".js",data.js);
-      if(!add_js){return false;}
-      const add_css = await make_file(base_path + name + "_scss.scss",data.css);
-      if(!add_css){return false;}
-      const add_builder = await make_file(base_path + name + "_builder.json",JSON.stringify(data.builder,null,1));
-      if(!add_builder){return false;}
+      path = raw_path;
       return true;
     }).catch((e)=>{
       console.log(e);
       console.log("failed-get_file");
       return false;
     });
-    win.webContents.send("message_from_main_process",{result:generate})
+    if(!generate){
+      return save_failed();
+    }
   }
+
+  //save here
+  if(true){
+    const base_path = path + "/" + name + "/";
+    const ensure_base_dir = await ensure_dir(base_path);
+    if(!ensure_base_dir){return save_failed();}
+    const add_js = await make_file(base_path + name + ".js",data.js);
+    if(!add_js){return save_failed();}
+    const add_css = await make_file(base_path + name + "_scss.scss",data.css);
+    if(!add_css){return save_failed();}
+    data.builder.name = name;
+    const add_builder = await make_file(base_path + name + "_builder.json",JSON.stringify(data.builder,null,1));
+    if(!add_builder){return save_failed();}
+  }
+
+  function save_failed(){
+    win.webContents.send("save_result_from_main_process",{result:false});
+  }
+  function save_success(){
+    win.webContents.send("save_result_from_main_process",{result:true,path:path,name:name});
+  }
+  return save_success();
 
 });
 
 ipc.respondTo('open_view', async () => {
 
   if(true){
-    const generate = await electron.dialog.showOpenDialog({
+    await electron.dialog.showOpenDialog({
       title: "open View builder file",
       buttonLabel : "open",
       properties:['openFile'],
@@ -87,16 +133,32 @@ ipc.respondTo('open_view', async () => {
       ]
     }).then(async (worker)=>{
       if(worker.canceled){return false;}
-      return read_json(worker.filePaths[0]);
+      const data = await read_json(worker.filePaths[0]);
+      const path = get_base_folder(worker.filePaths[0]);
+      win.webContents.send("read_result_from_main_process",{result:data ? true : false,data:data,path:path});
     }).catch((e)=>{
       console.log(e);
       console.log("failed-get_file");
-      return false;
+      win.webContents.send("read_result_from_main_process",{result:false});
     });
-    win.webContents.send("read_result_from_main_process",{result:generate,id:uniqid()})
   }
 
 });
+
+function get_base_folder(path){
+  let spliter;
+  if(path.indexOf("/") >= 0){spliter = '/';}
+  if(path.indexOf("\\") >= 0){spliter = '\\';}
+  let hold = path.split(spliter);
+  let collect = '';
+  for(let i=0;i<hold.length-2;i++){
+    collect += hold[i] + spliter
+  }
+  if(collect[collect.length - 1] === spliter){
+    collect = collect.substring(0,collect.length - 1);
+  }
+  return collect;
+}
 
 function read_json(path){
   return fs.readJson(path)
@@ -112,23 +174,3 @@ function make_file(path,data){
   return fs.outputFile(path,data)
   .then(()=>{return true;}).catch((e)=>{console.log(e);return false;});
 }
-
-
-
-// function make_file(path,data){
-//   return new Promise((resolve,reject)=>{
-//     return fs.ensureDir(path, data, (err) => {
-//       if(err){console.log(err);reject(err);} else {resolve();}
-//     });
-//   });
-// }
-//
-// function ensure_dir(){
-//   return new Promise((resolve,reject)=>{
-//     fs.mkdir('/tmp/a/apple', { recursive: true }, (err) => {
-//       if(err){console.log(err);reject(err);} else {resolve();}
-//     });
-//   });
-// }
-
-app.on('ready', createWindow);
