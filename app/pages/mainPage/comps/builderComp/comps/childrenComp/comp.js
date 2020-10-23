@@ -24,6 +24,18 @@ async function build(controller){
 
   let active = controller.active();
 
+  // for(let key in active.children){
+  //   console.log({n:active.children[key].name,i:active.children[key].index});
+  // }
+
+  // controller.functions.update_children_position(1,4);
+
+  // let hold = false;
+  // if(!hold){
+  //   controller.functions.update_children_position(2,5);
+  //   hold = true;
+  // }
+
   const main = engine.make.div({
     parent:compId,
     class:'comp-builder-children'
@@ -51,14 +63,72 @@ async function build(controller){
     class:'comp-builder-children-list'
   });
 
-  for(let childName of Object.keys(active.children)){
+  const listContObject = engine.get.element(listCont);
+  listContObject.addEventListener("pointerup",()=>{
+    if(!do_select){return;}
+    do_select = false;
+    controller.functions.update_children_position(drag_me.index,moveto);
+  });
 
+  let do_select = false,moveto,drag_me,drag_element_id,drag_item_index,moveToName;
+
+  let sorted = sort_children(active.children);
+  for(let childName of sorted){
     let child = active.children[childName];
+    make_list_item(child);
+  }
 
-    const list = engine.make.div({
+  function make_list_item(child,parent){
+
+    let make_list_div = {
       parent:listCont,
-      class:'comp-builder-children-list-item'
+      class:'comp-builder-children-list-item',
+    };
+    if(parent){
+      let align_pos = 'beforebegin';
+      if(moveToName === sorted[sorted.length - 1]){
+        align_pos = 'afterend';
+      }
+      make_list_div.parent = parent;
+      make_list_div.position = align_pos;
+      make_list_div.class += " comp-builder-children-list-item-hover";
+    }
+
+    const list = engine.make.div(make_list_div);
+    if(!list){return;}
+
+    const listObject = engine.get.element(list);
+    listObject.addEventListener('pointerenter',()=>{
+      if(child.index === drag_item_index){return;}
+      if(!do_select){return;}
+      moveto = child.index;
+      moveToName = child.name;
+      if(drag_element_id){
+        engine.view.remove(drag_element_id);
+      }
+      drag_element_id = make_list_item(drag_me,list);
     });
+
+      const dragCont = engine.make.div({
+        parent:list,
+        class:'comp-builder-children-list-item-val comp-builder-children-list-item-val-drag_image',
+      });
+
+      const dragObject = engine.get.element(dragCont);
+
+      dragObject.addEventListener("pointerdown",()=>{
+        drag_me = child;
+        do_select = true;
+        drag_item_index = child.index;
+        engine.make.addClass({id:list,class:'comp-builder-children-list-item-selected'});
+      });
+
+        engine.make.image({
+          parent:dragCont,
+          class:'comp-builder-children-list-item-val-drag_image-img',
+          type:'local',
+          location:'assets/images/move.png'
+        });
 
       engine.make.div({
         parent:list,
@@ -91,11 +161,47 @@ async function build(controller){
           type:'local',
           location:'assets/images/delete.png',
           function:()=>{
-            controller.functions.remove_child(childName);
+            controller.functions.remove_child(child.name);
           }
         });
 
+    return list;
+
   }
+
+}
+
+function sort_children(children){
+
+  let index_pool = [];
+  let keys = {};
+  for(let key in children){
+    index_pool.push(children[key].index);
+    keys[children[key].index] = key;
+  }
+
+  let sorted = [];
+  for(let index of index_pool){
+    if(sorted.length === 0 || index > sorted[sorted.length - 1]){
+      sorted.push(index);
+    } else {
+      let sort_index = 0;
+      for(let item of sorted){
+        if(item > index){
+          sorted.splice(sort_index,0,index);
+          break;
+        }
+        sort_index++;
+      }
+    }
+  }
+
+  let sorted_keys = [];
+  for(let i of sorted){
+    sorted_keys.push(keys[i]);
+  }
+
+  return sorted_keys;
 
 }
 

@@ -1,0 +1,43 @@
+
+
+.page-main-main{
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  position: relative;
+  // border: 5px solid purple;
+}
+
+.page-main-section{
+  padding: 10px;
+  text-transform: capitalize;
+  border-bottom: 1px solid $color-grey;
+  color:$color-red;
+  margin-bottom: 10px;
+}
+
+.page-main-main-canvas{
+  display: inline-block;
+  vertical-align: top;
+  width: 70%;
+  height: 100%;
+  overflow: auto;
+  // border:5px solid red;
+}
+
+  .page-main-main-canvas-full{
+    width: 100vw !important;
+    // border: 5px solid purple;
+  }
+
+.page-main-main-builder{
+  position: relative;
+  display: inline-block;
+  vertical-align: top;
+  width: 30%;
+  height: 100%;
+  overflow: auto;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  z-index: 99999;
+  // border:5px solid green;
+}

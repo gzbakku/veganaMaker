@@ -16,7 +16,8 @@ const init = (pid) => {         //pid referes to the parentPageId, pass this var
   parentId = pid;               //set parent page ref
   compId = parentId + compRef;  //set comp id
   engine.make.init.comp(compId,parentId,'comp');
-  build();                      //start build you can also start fetch here.
+  attach_read_result_from_main_process();
+  build();
 
 }
 
@@ -47,53 +48,23 @@ async function build(){
   }});}
   menuOptions.push({image:'assets/images/folder.png',function:()=>{
     ipc.call("open_view");
-    ipc.on("read_result_from_main_process",(e,d)=>{
-      if(!d.result){
-        return engine.ui.getComp('mainUi','alertComp').init(compId,{
-          message:'failed to open file'
-        });
-      }
-      if(!engine.validate.json({
-        name:{type:'string',max:512,min:1},
-        fonts:{type:'object',max:500},
-        colors:{type:'object',max:500},
-        builder:{type:'object',max:7,min:7},
-      },d.data)){
-        return engine.ui.getComp('mainUi','alertComp').init(compId,{
-          message:'given file is not compatible with this version of vegana maker.'
-        });
-      }
-      if(!engine.validate.json({
-        type:{type:'string',options:['div','image','input','href']},
-        name:{type:'string',min:1,max:1024},
-        style:{type:'object',min:2,max:2},
-        controllers:{type:'object',max:50},
-        should_loop:{type:'boolean'},
-        loop_array:{type:'array',max:500},
-        children:{type:'object',max:500}
-      },d.data.builder)){
-        return engine.ui.getComp('mainUi','alertComp').init(compId,{
-          message:'given builder is not compatible with this version of vegana maker.'
-        });
-      }
-      engine.data.reset("builder",d.data.builder,"local");
-      engine.data.reset("fonts",d.data.fonts,"local");
-      engine.data.reset("colors",d.data.colors,"local");
-      engine.data.reset("viewName",d.data.name,"local");
-      engine.data.reset("viewPath",d.path,"local");
-      engine.global.function.clean_active();
-      window.active = [];
-      window.builder = d.result;
-      engine.global.function.redraw_base();
-    });
+    //ipc resolver is after this function
+  }});
+  menuOptions.push({image:'assets/images/mobile_view.png',function:()=>{
+    ipc.call("open_mobile_view");
+  }});
+  menuOptions.push({image:'assets/images/resize.png',function:()=>{
+    engine.global.function.minimize_builder();
   }});
   menuOptions.push({image:'assets/images/add.png',function:()=>{
-    engine.data.reset('fonts',[],'local');
-    engine.data.reset('colors',[],'local');
+    engine.data.reset('fonts',{},'local');window.fonts = {};
+    engine.data.reset('colors',{},'local');window.colors = {};
     engine.data.reset('viewName',null,'local');
     engine.data.reset('viewPath',null,'local');
+    //reset_builder available at top of main page build function
     engine.global.function.reset_builder();
     engine.global.function.clean_active();
+    //redraw base is available at page where we draw the main div at the bottom of build function
     engine.global.function.redraw_base();
   }});
   menuOptions.push({image:'assets/images/reload.png',function:()=>{
@@ -178,6 +149,7 @@ async function build(){
         let build = {
           type:type,
           name:name,
+          index:Object.keys(hold.children).length + 1,
           style:{
             all:{},
             browser:{
@@ -199,6 +171,45 @@ async function build(){
           build.controllers["type"] = "local";
         }
         hold.children[name] = build;
+        reset();
+      },
+      update_children_position:(base,next)=>{
+
+        // console.log({b:base,n:next});
+        // let collect = '';
+        // for(let name in hold.children){
+        //   collect += ' || ' + hold.children[name].name + ':' + hold.children[name].index;
+        // }
+        // console.log(collect);
+
+        if(next > base){
+          for(let childName in hold.children){
+            if(hold.children[childName].index === base){
+              hold.children[childName].index = next;
+            } else {
+              if(hold.children[childName].index <= next && hold.children[childName].index > base){
+                hold.children[childName].index--;
+              }
+            }
+          }
+        } else if(base > next){
+          for(let childName in hold.children){
+            if(hold.children[childName].index === base){
+              hold.children[childName].index = next;
+            } else {
+              if(hold.children[childName].index >= next && hold.children[childName].index < base){
+                hold.children[childName].index++;
+              }
+            }
+          }
+        }
+
+        // collect = '';
+        // for(let name in hold.children){
+        //   collect += ' || ' + hold.children[name].name + ':' + hold.children[name].index;
+        // }
+        // console.log(collect);
+
         reset();
       },
       remove_child:(name)=>{
@@ -267,5 +278,50 @@ async function build(){
   // assetsComp.init(compId);
 
 }
+
+function attach_read_result_from_main_process(){
+  if(engine.get.platform() === "electron"){
+    ipc.on("read_result_from_main_process",(e,d)=>{
+      if(!d.result){
+        return engine.ui.getComp('mainUi','alertComp').init(compId,{
+          message:'failed to open file'
+        });
+      }
+      if(!engine.validate.json({
+        name:{type:'string',max:512,min:1},
+        fonts:{type:'object',max:500},
+        colors:{type:'object',max:500},
+        builder:{type:'object',max:7,min:7},
+      },d.data)){
+        return engine.ui.getComp('mainUi','alertComp').init(compId,{
+          message:'given file is not compatible with this version of vegana maker.'
+        });
+      }
+      if(!engine.validate.json({
+        type:{type:'string',options:['div','image','input','href']},
+        name:{type:'string',min:1,max:1024},
+        style:{type:'object',min:2,max:2},
+        controllers:{type:'object',max:50},
+        should_loop:{type:'boolean'},
+        loop_array:{type:'array',max:500},
+        children:{type:'object',max:500}
+      },d.data.builder)){
+        return engine.ui.getComp('mainUi','alertComp').init(compId,{
+          message:'given builder is not compatible with this version of vegana maker.'
+        });
+      }
+      engine.data.reset("builder",d.data.builder,"local");
+      engine.data.reset("fonts",d.data.fonts,"local");
+      engine.data.reset("colors",d.data.colors,"local");
+      engine.data.reset("viewName",d.data.name,"local");
+      engine.data.reset("viewPath",d.path,"local");
+      engine.global.function.clean_active();
+      window.active = [];
+      window.builder = d.result;
+      engine.global.function.redraw_base();
+    });
+  }
+}
+
 
 module.exports = {init:init,ref:compRef,type:type,trackers:false}

@@ -6,9 +6,7 @@ const fs = require("fs-extra");
 const uniqid = require("uniqid");
 
 let win;
-
 function createWindow(){
-
   win = new browser({
     width: 800,
     height: 600,
@@ -19,6 +17,7 @@ function createWindow(){
     }
   });
   win.loadFile('electric.html');
+  win.setMenu(null)
   // win.webContents.openDevTools();
 }
 
@@ -34,17 +33,31 @@ function createMobileWindow(){
     }
   });
   mobile.loadFile('electric.html');
+  mobile.on('close',()=>{
+    mobile= null;
+  });
+  mobile.setMenu(null)
   // mobile.webContents.openDevTools();
 }
 
 app.on('ready', make_all_windows);
 function make_all_windows(){
   createWindow();
-  createMobileWindow();
 }
 
+ipc.respondTo('update_mobile_view', (s,data) => {
+  if(mobile){
+    mobile.webContents.send("update_build_for_mobile",data);
+  }
+});
+
+ipc.respondTo('open_mobile_view', (sender) => {
+  if(!mobile){
+    createMobileWindow();
+  }
+});
+
 ipc.respondTo('reload', (sender) => {
-  console.log("reload");
   win.close();
   mobile.close();
   //app.quit();

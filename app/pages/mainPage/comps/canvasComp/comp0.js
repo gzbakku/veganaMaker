@@ -297,7 +297,7 @@ function draw_element(parent,element,nameCollection,elementIdCollection){
   }
 
   if(Object.keys(element.children).length > 0){
-    for(let key of sort_children(element.children)){
+    for(let key in element.children){
       let trackers = draw_element(
         make,element.children[key],
         nameCollection.length > 0 ? nameCollection += "-" + element.name : element.name,
@@ -326,40 +326,6 @@ function extract_from_json(tree,obj){
     }
     return val;
   }
-}
-
-function sort_children(children){
-
-  let index_pool = [];
-  let keys = {};
-  for(let key in children){
-    index_pool.push(children[key].index);
-    keys[children[key].index] = key;
-  }
-
-  let sorted = [];
-  for(let index of index_pool){
-    if(sorted.length === 0 || index > sorted[sorted.length - 1]){
-      sorted.push(index);
-    } else {
-      let sort_index = 0;
-      for(let item of sorted){
-        if(item > index){
-          sorted.splice(sort_index,0,index);
-          break;
-        }
-        sort_index++;
-      }
-    }
-  }
-
-  let sorted_keys = [];
-  for(let i of sorted){
-    sorted_keys.push(keys[i]);
-  }
-
-  return sorted_keys;
-
 }
 
 module.exports = {init:init,ref:compRef,type:type,trackers:false}

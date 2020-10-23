@@ -6,6 +6,7 @@ module.exports = {
   init:async ()=>{
 
     let name = engine.data.get("viewName","local");
+    console.log(name);
     if(!name){
       name = await require("./get_name.js")()
       .then((n)=>{return n;})
@@ -37,23 +38,6 @@ module.exports = {
     let final_css = compile_css();
 
     if(engine.get.platform() === "electron"){
-      ipc.on("save_result_from_main_process",(e,d)=>{
-        let message;
-        if(d.result){
-          message = 'view generated successfully';
-        } else {
-          message = 'failed to generate view sorry.';
-        }
-        engine.ui.getComp("mainUi","alertComp").init("page-router",{
-          message:message
-        });
-        if(d.name){
-          engine.data.reset('viewName',d.name,'local');
-        }
-        if(d.path){
-          engine.data.reset('viewPath',d.path,'local');
-        }
-      });
       ipc.call("save_view",{name:name,css:final_css,js:final_js,builder:{
         builder:builder,fonts:fonts,colors:colors
       },path:engine.data.get('viewPath','local')});
@@ -62,6 +46,31 @@ module.exports = {
   }
 
 };
+
+function attach_save_result_from_main_process(){
+  if(engine.get.platform() === "electron"){
+    ipc.on("save_result_from_main_process",(e,d)=>{
+      let message;
+      if(d.result){
+        message = 'view generated successfully';
+      } else {
+        message = 'failed to generate view sorry.';
+      }
+      engine.ui.getComp("mainUi","alertComp").init("page-router",{
+        message:message
+      });
+      // console.log(d);
+      if(d.name){
+        engine.data.reset('viewName',d.name,'local');
+      }
+      if(d.path){
+        engine.data.reset('viewPath',d.path,'local');
+      }
+    });
+  }
+}
+
+attach_save_result_from_main_process();
 
 function draw_element(element,tab_no,parent,base,name,cls){
 

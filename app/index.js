@@ -4,11 +4,9 @@ require('brace/mode/javascript');
 require('brace/mode/json');
 require('brace/theme/twilight');
 
-if(engine.platform === "electron"){
+if(engine.get.platform() === "electron"){
   window.ipc = require("hadron-ipc");
 }
-
-
 
 //import all the pages here which you want to be in the app and use engine.get.pageModule api to get the page
 const mainPage = require('./pages/mainPage/page');

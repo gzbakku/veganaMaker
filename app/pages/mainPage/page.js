@@ -77,6 +77,8 @@ function build(){
 
   engine.add.function("make_section",make_section);
 
+  const drag = require('./drag/index.js');
+
   if(engine.get.platform("pc")){
     const main = engine.make.div({
       parent:pageId,
@@ -94,11 +96,30 @@ function build(){
       parent:main,
       class:'page-main-main-builder'
     });
+    const rightObject = engine.get.element(right);
     canvasComp.init(left);
     builderComp.init(right);
+    let dragger;
+    engine.add.function('minimize_builder',()=>{
+      engine.view.hide(right);
+      engine.make.addClass({id:left,class:'page-main-main-canvas-full'});
+      dragger = drag(main);
+    });
+    engine.add.function('maximize_builder',()=>{
+      rightObject.style.display = 'inline-block';
+      engine.make.removeClass({id:left,class:'page-main-main-canvas-full'});
+      if(dragger){
+        engine.view.remove(dragger);
+        dragger = null;
+      }
+    });
+    // engine.global.function.minimize_builder();
   }
 
   if(engine.get.platform("mobile")){
+    engine.get.platform = ()=>{
+      return 'mobile';
+    }
     const main = engine.make.div({
       parent:pageId,
       class:'page-main-main_mobile'

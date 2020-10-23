@@ -1,7 +1,7 @@
 
 
 .comp-builder-children{
-
+  user-select:none;
 }
 
   .comp-builder-children-list{
@@ -11,19 +11,52 @@
     margin: auto;
     margin-top: 10px;
     margin-bottom: 10px;
+    user-select: none;
   }
+
+    .comp-builder-children-list-item-val-drag_image{
+      // border: 5px solid red;
+      cursor:n-resize;
+    }
+
+      .comp-builder-children-list-item-val-drag_image-img{
+        height: 30px;
+        pointer-events: none;
+      }
 
     .comp-builder-children-list-item{
       display: flex;
       border-bottom: 1px solid $color-grey;
+      // border: 5px solid red;
     }
 
-    .comp-builder-children-list-item:hover{
-      // background-color: $color-grey;
-      // color:white;
-      border-bottom: 5px solid $color-green;
-      cursor: pointer;
-    }
+      .comp-builder-children-list-item-hover{
+        // border: 5px solid red;
+        // border-top: 1px solid $color-grey;
+        // margin-top: 30px;
+        // padding-top: 30px;
+        // border-bottom: 5px solid $color-green;
+        width: 90%;
+        border-left: 1px solid $color-grey;
+        border-right: 1px solid $color-grey;
+        margin: auto;
+        margin-top: 20px;
+        margin-bottom: 20px;
+        border:5px solid $color-green;
+      }
+
+      .comp-builder-children-list-item-selected{
+        border-top: 5px solid $color-green;
+        height: 5px;
+        overflow: hidden;
+      }
+
+    // .comp-builder-children-list-item:hover{
+    //   // background-color: $color-grey;
+    //   // color:white;
+    //   border-bottom: 5px solid $color-green;
+    //   cursor: pointer;
+    // }
 
       .comp-builder-children-list-item-val{
         flex: auto;
@@ -33,12 +66,16 @@
       }
 
         .comp-builder-children-list-item-val-type{
+          padding-top: 10px;
           color:$color-green;
+          cursor: pointer;
           // border-right: 1px solid $color-grey;
         }
 
         .comp-builder-children-list-item-val-name{
+          padding-top: 10px;
           color:$color-red;
+          cursor: pointer;
         }
 
         .comp-builder-children-list-item-val-delete{
