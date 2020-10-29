@@ -104,6 +104,12 @@ module.exports = (parent)=>{
       noFontsCont = null;
     }
 
+    if(engine.data.get("host","local")){
+      location = engine.data.get("host","local") + location;
+    }
+
+    console.log(location);
+
     engine.sketch.fonts.add(tag,name,location,null,true);
 
     const row = engine.make.div({

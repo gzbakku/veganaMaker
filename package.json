@@ -1,7 +1,8 @@
 {
+  "author": "tejasav dutt",
   "name": "veganaMaker",
-  "version": "1.0.0",
-  "description": "this is some app",
+  "version": "1.7.0",
+  "description": "this is a ui based view builder for vegana js you can make a full webview using vegana js components but much faster then writing the views by hand by using the awesome funcationality the program provides to its users.",
   "main": "electro.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -12,13 +13,12 @@
   "start": "electron .",
   "run": "vegana run electron",
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "license": "LICENSE.md",
   "dependencies": {
     "brace": "^0.11.1",
     "fs-extra": "^9.0.1",
     "hadron-ipc": "^1.1.1",
-    "vegana-engine": "^0.1.9"
+    "vegana-engine": "^0.2.0"
   },
   "devDependencies": {
     "electron": "^10.1.4",

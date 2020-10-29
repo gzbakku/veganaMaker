@@ -11,13 +11,13 @@ async function build(){
       "appId":"app.vegana.maker",
       "productName":"vegana maker",
       "copyright":"tejasav dutt",
-      "buildVersion":"1.0.2",
       "directories":{
         "output":"dist/electron"
       },
       "win":{
         "icon":"assets/veganaMakerLogo.png",
-        "target":"nsis"
+        "target":"nsis",
+        // "FileVersion":version
       },
       "linux":{
         "icon":"assets/veganaMakerLogo.png",

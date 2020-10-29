@@ -1198,6 +1198,12 @@ module.exports = (parent)=>{
       noFontsCont = null;
     }
 
+    if(engine.data.get("host","local")){
+      location = engine.data.get("host","local") + location;
+    }
+
+    console.log(location);
+
     engine.sketch.fonts.add(tag,name,location,null,true);
 
     const row = engine.make.div({
@@ -31271,7 +31277,7 @@ module.exports = {
  fonts:{
    add:async (tag,name,location,style,global_url)=>{
      return new Promise((resolve,reject)=>{
-       if(window.hasOwnProperty('is_electron') || window.hasOwnProperty('is_cordova')){
+       if((window.hasOwnProperty('is_electron') || window.hasOwnProperty('is_cordova') && !global_url)){
          location = location;
        } else {
          if(!global_url){
